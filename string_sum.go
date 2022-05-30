@@ -23,5 +23,30 @@ var (
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
 func StringSum(input string) (output string, err error) {
-	return "", nil
+	resString := strings.ReplaceAll(input, " ", "")
+	var isSum string = "-"
+	resIndex := 1
+	if strings.Contains(resString, "+") {
+		isSum = "+"
+		resIndex = 0
+	}
+
+	sum1, err1 := strconv.Atoi(strings.Split(resString, isSum)[0 + resIndex])
+	sum2, err2 := strconv.Atoi(strings.Split(resString, isSum)[1 + resIndex])
+
+	if err1 != nil {
+		return '', fmt.Errorf(errorEmptyInput)
+	}
+	if err2 != nil {
+		return '', fmt.Errorf(errorNotTwoOperands)
+	}
+
+	if resIndex > 0 {
+		sum1 = sum1*-1
+	}
+
+	if isSum == string('-') {
+		return (sum1 - sum2), nil
+	}
+	return string(sum1 + sum2), nil
 }
