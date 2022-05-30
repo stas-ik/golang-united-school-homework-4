@@ -2,6 +2,7 @@ package string_sum
 
 import (
 	"errors"
+	"strings"
 )
 
 //use these errors as appropriate, wrapping them with fmt.Errorf function
@@ -24,8 +25,12 @@ var (
 
 func StringSum(input string) (output string, err error) {
 	resString := strings.ReplaceAll(input, " ", "")
-	var isSum string = "-"
+	if len(resString) == 0 {
+		return "", fmt.Errorf(errorEmptyInput)
+	}
+
 	resIndex := 1
+	var isSum string = "-"
 	if strings.Contains(resString, "+") {
 		isSum = "+"
 		resIndex = 0
@@ -34,11 +39,8 @@ func StringSum(input string) (output string, err error) {
 	sum1, err1 := strconv.Atoi(strings.Split(resString, isSum)[0 + resIndex])
 	sum2, err2 := strconv.Atoi(strings.Split(resString, isSum)[1 + resIndex])
 
-	if err1 != nil {
-		return '', fmt.Errorf(errorEmptyInput)
-	}
-	if err2 != nil {
-		return '', fmt.Errorf(errorNotTwoOperands)
+	if err1 != nil || err2 != nil  {
+		return "", fmt.Errorf(errorNotTwoOperands)
 	}
 
 	if resIndex > 0 {
