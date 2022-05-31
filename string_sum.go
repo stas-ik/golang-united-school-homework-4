@@ -48,12 +48,12 @@ func StringSum(input string) (output string, err error) {
 
 	sum1, err1 := strconv.Atoi(strings.Split(resString, isSum)[0+resIndex])
 	if err1 != nil {
-		return "", fmt.Errorf("e1: %w", errorFirstOperandNotNumber)
+		return "", fmt.Errorf("second number conv error: %w", err1)
 	}
 
 	sum2, err2 := strconv.Atoi(strings.Split(resString, isSum)[1+resIndex])
-	if err1 != nil || err2 != nil {
-		return "", fmt.Errorf("e1: %w", errorSecondOperandNotNumber)
+	if err2 != nil {
+		return "", fmt.Errorf("second number conv error: %w", err2)
 	}
 
 	if resIndex > 0 {
