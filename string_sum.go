@@ -8,10 +8,8 @@ import (
 
 //use these errors as appropriate, wrapping them with fmt.Errorf function
 var (
-	// Use when the input is empty, and input is considered empty if the string contains only whitespace
-	errorEmptyInput = errors.New("input is empty")
-	// Use when the expression has number of operands not equal to two
-	errorNotTwoOperands = errors.New("expecting two operands, but received more or less")
+	errorEmptyInput             = errors.New("input is empty")
+	errorNotTwoOperands         = errors.New("expecting two operands, but received more or less")
 )
 
 // Implement a function that computes the sum of two int numbers written as a string
@@ -27,29 +25,41 @@ var (
 func StringSum(input string) (output string, err error) {
 	resString := strings.ReplaceAll(input, " ", "")
 	if len(resString) == 0 {
-		return "", errorEmptyInput
+		return "", fmt.Errorf("e1: %w", errorEmptyInput)
 	}
 
-	resIndex := 1
+	resIndex := 0
 	var isSum string = "-"
-	if strings.Contains(resString, "+") {
+	var isPlus bool = strings.Contains(resString, "+")
+	if isPlus {
 		isSum = "+"
 		resIndex = 0
 	}
 
-	sum1, err1 := strconv.Atoi(strings.Split(resString, isSum)[0 + resIndex])
-	sum2, err2 := strconv.Atoi(strings.Split(resString, isSum)[1 + resIndex])
+	if strings.HasPrefix(resString, string("-")) && !isPlus {
+		resIndex = 1
+	}
+	if len(strings.Split(resString, isSum)) != 2+resIndex {
+		return "", fmt.Errorf("e1: %w", errorNotTwoOperands)
+	}
 
-	if err1 != nil || err2 != nil  {
-		return "", errorNotTwoOperands
+	sum1, err1 := strconv.Atoi(strings.Split(resString, isSum)[0+resIndex])
+	if err1 != nil {
+		return "", fmt.Errorf("e1: %w", errorNotTwoOperands)
+	}
+
+	sum2, err2 := strconv.Atoi(strings.Split(resString, isSum)[1+resIndex])
+	if err1 != nil || err2 != nil {
+		return "", fmt.Errorf("e1: %w", errorNotTwoOperands)
 	}
 
 	if resIndex > 0 {
-		sum1 = sum1*-1
+		sum1 = sum1 * -1
 	}
 
-	if isSum == string('-') {
-		return string(sum1 - sum2), nil
+	if isSum == string("-") {
+		return strconv.Itoa(sum1 - sum2), nil
 	}
-	return string(sum1 + sum2), nil
+
+	return strconv.Itoa(sum1 + sum2), nil
 }
