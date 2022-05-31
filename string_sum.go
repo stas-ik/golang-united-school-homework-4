@@ -28,7 +28,7 @@ var (
 func StringSum(input string) (output string, err error) {
 	resString := strings.ReplaceAll(input, " ", "")
 	if len(resString) == 0 {
-		return "", fmt.Errorf(errorEmptyInput)
+		return "", errorEmptyInput
 	}
 
 	resIndex := 1
@@ -42,7 +42,7 @@ func StringSum(input string) (output string, err error) {
 	sum2, err2 := strconv.Atoi(strings.Split(resString, isSum)[1 + resIndex])
 
 	if err1 != nil || err2 != nil  {
-		return "", fmt.Errorf(errorNotTwoOperands)
+		return "", errorNotTwoOperands
 	}
 
 	if resIndex > 0 {
@@ -50,7 +50,7 @@ func StringSum(input string) (output string, err error) {
 	}
 
 	if isSum == string('-') {
-		return (sum1 - sum2), nil
+		return string(sum1 - sum2), nil
 	}
 	return string(sum1 + sum2), nil
 }
