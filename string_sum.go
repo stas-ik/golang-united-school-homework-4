@@ -11,6 +11,8 @@ import (
 var (
 	errorEmptyInput             = errors.New("input is empty")
 	errorNotTwoOperands         = errors.New("expecting two operands, but received more or less")
+	errorFirstOperandNotNumber  = errors.New("the first operand is not a number")
+	errorSecondOperandNotNumber = errors.New("the second operand is not a number")
 )
 
 // Implement a function that computes the sum of two int numbers written as a string
@@ -46,12 +48,12 @@ func StringSum(input string) (output string, err error) {
 
 	sum1, err1 := strconv.Atoi(strings.Split(resString, isSum)[0+resIndex])
 	if err1 != nil {
-		return "", fmt.Errorf("e1: %w", errorNotTwoOperands)
+		return "", fmt.Errorf("e1: %w", errorFirstOperandNotNumber)
 	}
 
 	sum2, err2 := strconv.Atoi(strings.Split(resString, isSum)[1+resIndex])
 	if err1 != nil || err2 != nil {
-		return "", fmt.Errorf("e1: %w", errorNotTwoOperands)
+		return "", fmt.Errorf("e1: %w", errorSecondOperandNotNumber)
 	}
 
 	if resIndex > 0 {
